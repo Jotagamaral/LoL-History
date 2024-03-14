@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>League of Legends: Encontrar informações do jogador</title>
+    <!-- Adicionando o Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilo adicional para o corpo da página */
+        body {
+            background-image: linear-gradient(#470081, rgb(88, 4, 105));
+            height: 100vh; /* Definindo altura total da janela do navegador */
+            display: flex; /* Usando flexbox para centralizar o conteúdo */
+            justify-content: center; /* Centralizando horizontalmente */
+            align-items: center; /* Centralizando verticalmente */
+            padding: 0 10px; /* Adicionando um pequeno espaço à esquerda e à direita */
+        }
+
+        #botao {
+            background-color: #9703c4;
+        }
+
+        /* Estilo para o hover do botão */
+        #botao:hover {
+            background-color: #6b006b; /* Alterando a cor de fundo ao passar o mouse */
+        }
+
+        /* Estilo para tornar o formulário mais estreito em telas menores */
+        @media (max-width: 576px) {
+            .col-md-6 {
+                max-width: 100%; /* Ajustando a largura máxima para ocupar toda a largura da tela */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Formulário centralizado -->
+    <form id="formDados" class="col-md-6" action="http://localhost:3000/receber-dados" method="POST">
+        <h1 class="text-center mb-4 text-white">History LoL</h1>
+        <div class="row">
+            <div class="form-group text-white col-md-8">
+                <label for="nome">Nome de invocador:</label>
+                <input type="text" id="nome" name="nome" class="form-control" required>
+            </div>
+
+            <div class="form-group text-white col-md-4">
+                <label for="regiao">Tag de região:</label>
+                <input type="text" id="regiao" name="regiao" class="form-control" required>
+            </div>
+        </div>
+
+        <!-- Modal para exibir mensagens de erro -->
+        <div class="modal fade" id="modalErro" tabindex="-1" role="dialog" aria-labelledby="modalErroLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalErroLabel">Erro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="mensagemErro"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adicionando a classe text-center para centralizar o botão horizontalmente -->
+        <div class="text-center">
+            <button id="botao" type="submit" class="btn text-white">Enviar</button>
+        </div>
+    </form>
+
+    <!-- Adicionando o Bootstrap JS para funcionalidades adicionais (opcional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Exibe o modal de erro com a mensagem especificada
+        function exibirErro(mensagem) {
+            document.getElementById('mensagemErro').textContent = mensagem;
+            $('#modalErro').modal('show');
+        }
+    </script>
+</body>
+</html>

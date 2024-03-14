@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+}
+
+#container {
+    background-image: linear-gradient(#470081, rgb(88, 4, 105)); /* Alteração: Adicionando background azul */
+    padding: 200px;
+    text-align: center;
+    max-width: 5600px;
+    box-sizing: border-box;
+    position: relative;
+
+}
+
+#infoJogador {
+   
+    margin-bottom: 20px;
+}
+
+#atualizarDados {
+    width: 200px;
+    padding: 10px;
+    border: none;
+
+    background-color: #9703c4;
+   
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 auto 20px; /* Alteração: Adicionando margem abaixo do botão */
+    position: absolute;
+    bottom: 20px ; /* Alteração: Centralizando horizontalmente */
+    left: 0;
+    right: 0;
+}
+
+#dados {
+    display: flex;
+    justify-content: center;
+
+    background-image: linear-gradient(rgb(88, 4, 105), black);
+    
+}
+
+
+
+
+#tabelaJogador table {
+    width: 100%; /* Garante que a tabela ocupe 100% do contêiner */
+}
+
+
+
+
+#tabelaJogador {
+    width: auto;
+    border-collapse: collapse;
+    overflow: hidden;
+
+    border-top: 2px solid #FFFFFF75;
+    border-left: 2px solid #FFFFFF75;
+    box-shadow: 5px 5px 12px #00000035;
+    background: #FFFFFF25;
+    border-radius: 15px;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+
+}
+
+#tabelaJogador td, th {
+    text-align: center;
+    vertical-align: middle;
+
+
+}
+
+
+/* Estilos para as células da tabela */
+#tabelaJogador td, #tabelaJogador th {
+    padding: 30px; /* Espaçamento interno das células */
+    border: 0;
+
+}
+

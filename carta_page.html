@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+<title>Dados do Jogador</title>
+</head>
+<body>
+
+    <!-- Header usando Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-dark  rounded-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="#">Início</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Outro link</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="container" class="container text-white">
+      
+            <h1 id="nomeJogador">O Estagiário</h1>
+            <h2 id="regiaoJogador">BRA1</h2>
+        
+        <button id="atualizarDados" class="btn ">Atualizar Dados</button>
+    </div>
+    
+    <div id="dados" class="container-fluid ">
+      
+        <table id="tabelaJogador" class="table table-bordered table-dark mt-5">
+            <thead>
+                <tr>
+                    <th>Campeão</th>
+                    <th>Kill</th>
+                    <th>Death</th>
+                    <th>Assist</th>
+                    <th>KDA</th>
+                    <th>Nota</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyJogador">
+                <!-- Aqui serão adicionadas as linhas dinamicamente -->
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Footer usando Bootstrap -->
+    <footer class="bg-dark text-white text-center py-3 bg-transparent ">
+        <div class="container">
+            <p>© 2024 <a href="https://github.com/Jotagamaral">Jotagamaral</a></p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Função para estabelecer a conexão SSE
+        function iniciarConexaoSSE() {
+            const eventSource = new EventSource('http://localhost:3000/sse');
+
+            eventSource.addEventListener('message', function(event) {
+                const dadosAtualizados = JSON.parse(event.data);
+
+                console.log('Evento sincronizado', dadosAtualizados)
+                atualizarInfo(dadosAtualizados);
+            });
+
+            eventSource.onerror = function(event) {
+                console.error('Erro de conexão SSE');
+                eventSource.close();
+            };
+        }
+
+        function calculateScore(elo, division, mediaKda) {
+            const scoreTable = {
+                'IRON': 0,
+                'BRONZE': 20,
+                'SILVER': 40,
+                'GOLD': 60,
+                'PLATINUM': 65,
+                'EMERALD': 70,
+                'DIAMOND': 75
+            };
+
+            const eloScore = scoreTable[elo] || 0;
+            const divisionScore = division === 'I' ? 3 : (division === 'II' ? 2 : (division === 'III' ? 1 : 0));
+            
+            return Math.floor(eloScore + divisionScore + mediaKda);
+        }
+
+        // Chamar a função para iniciar a conexão SSE quando a página carregar
+        window.onload = iniciarConexaoSSE;
+
+         // Função para atualizar informações na página
+        function atualizarInfo(data) {
+            // Limpar o conteúdo da tabela antes de adicionar novas linhas
+            document.getElementById('tbodyJogador').innerHTML = '';
+
+            // Adicionar uma nova linha para cada conjunto de dados recebidos
+            for (let i = 0; i < data.championName.length; i++) {
+                const jogador = data;
+                const newRow = `
+                    <tr>
+                        <td>${jogador.championName[i]}</td>
+                        <td>${jogador.kill[i]}</td>
+                        <td>${jogador.death[i]}</td>
+                        <td>${jogador.assist[i]}</td>
+                        <td>${jogador.kda[i]}</td>
+                        <td>${calculateScore(jogador.elo, jogador.division, jogador.kda[i])}</td>
+                    </tr>
+                `;
+                document.getElementById('tbodyJogador').insertAdjacentHTML('beforeend', newRow);
+            }
+        }
+
+        // Adicionar um evento de clique para atualizar os dados manualmente
+        document.getElementById('atualizarDados').addEventListener('click', async () => {
+            try {
+                const response = await fetch('http://localhost:3000/atualizar-dados');
+                const data = await response.json();
+                atualizarInfo(data);
+            } catch (error) {
+                console.error('Erro ao receber dados atualizados:', error);
+            }
+        });
+    </script>
+
+
+
+</body></html>
