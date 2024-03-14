@@ -9,7 +9,7 @@ const { Console, error } = require('console');
 const eventEmitter = new EventEmitter();
 
 // Dados para envio da requisição
-const API_KEY = "RGAPI-6d85b4a5-7ec7-43bd-9ef2-c79036c4c99e"
+const API_KEY = "********************"
 const API_BASE_URL = "https://americas.api.riotgames.com";
 
 let elo = ''
